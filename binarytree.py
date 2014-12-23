@@ -7,6 +7,7 @@ class BinaryTree(object):
             self.__root = None
             self.__size = 0
         else:
+            assert isinstance(root_value, int)
             self.__root = _Node(root_value)
             self.__size = 1
 
@@ -29,7 +30,7 @@ class BinaryTree(object):
                 else:
                     cur_node = cur_node.left
 
-            cur_height = cur_height + 1
+            cur_height += 1
 
         # increase tree height
         if cur_height > self.__height:
@@ -96,12 +97,4 @@ class _Node(object):
         self.right = None
 
     def print_node(self):
-        print("current value: ", self.value)
-        if self.left is not None:
-            print("  left value: ", self.left.value)
-        else:
-            print("  left value: None")
-        if self.right is not None:
-            print("  right value: ", self.right.value)
-        else:
-            print("  right value: None")
+        print(self.value)
