@@ -3,6 +3,9 @@ __author__ = 'Jeremy Turinetti'
 class BinaryTree(object):
     def __init__(self, root_value=None):
         self.__height = 0
+        self.__left_height = 0
+        self.__right_height = 0
+
         if root_value is None:
             self.__root = None
             self.__size = 0
@@ -11,12 +14,15 @@ class BinaryTree(object):
             self.__root = _Node(root_value)
             self.__size = 1
 
-    def __insert_node(self, node):
+    def __insert(self, node):
         assert isinstance(node, _Node)
+
         cur_node = self.__root
         done = False
         cur_height = 0
+
         while not done:
+            cur_height = cur_height + 1
             if node.value > cur_node.value:
                 if cur_node.right is None:
                     cur_node.right = node
@@ -39,12 +45,15 @@ class BinaryTree(object):
         # increase tree size
         self.__size = self.__size + 1
 
-    def insert_value(self, value):
+    def insert(self, value):
         node = _Node(value)
         if self.__root is None:
             self.__root = node
         else:
-            self.__insert_node(node)
+            self.__insert(node)
+
+    def balance_tree(self):
+        pass # TODO
 
     def print_tree(self):
         node = self.__root
@@ -64,7 +73,7 @@ class BinaryTree(object):
 
     def depth_first_traversal(self):
         node = self.__root
-        if self.__root is None:
+        if node is None:
             print("Empty binary tree.")
         else:
             self.__depth_first_traversal(node)
@@ -89,6 +98,36 @@ class BinaryTree(object):
                     node_queue.append(cur_node.left)
                 if cur_node.right is not None:
                     node_queue.append(cur_node.right)
+
+    def depth_first_search(self, value):
+        node = self.root
+        if self.root is None:
+            print("Empty binary tree. Value not found.")
+        else:
+            result = self.__depth_first_search(node, value)
+            return result
+
+    def __depth_first_search(self, node, value):
+        isFound = False
+        if node.left is not None and isFound == False:
+            isFound = isFound or self.__depth_first_search(node.left, value)
+        if node.right is not None and isFound == False:
+            isFound = isFound or self.__depth_first_search(node.right, value)
+        if node.value == value:
+            isFound = True
+
+        return isFound
+
+    def breadth_first_search(self, value):
+        node = self.root
+        if node is None:
+            print("Empty binary tree. Value not found.")
+        else:
+            result = self.__breadth_first_search(node, value)
+            return result
+
+    def __breadth_first_search(self, node, value):
+        pass # TODO
 
 class _Node(object):
     def __init__(self, value):
